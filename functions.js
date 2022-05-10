@@ -18,18 +18,17 @@ function operate(operator, a, b) {
 
 // Display
 
-const display = document.querySelector("h1");
-const numButtons = document.querySelectorAll(".num");
-const operateButtons = document.querySelectorAll(".operator");
-const equals = document.querySelector('#equals')
-
-const clearBtn = document.querySelector('#clear');
+const display = document.querySelector("h1"); // display
+const numButtons = document.querySelectorAll(".num"); // 0 - 9
+const operateButtons = document.querySelectorAll(".operator"); // +, -, *, /
+const equals = document.querySelector('#equals') // =
+const clearBtn = document.querySelector('#clear'); // C
 
 let displayValue = []; // here all clicked numbers will be added to array
 let displayNumbers;  // array to be transformed into one number
 
 let operations = ['a','operator','b']; 
-let result;
+let result = '';
 
 numButtons.forEach((button) => {
     button.addEventListener('click', function() {
@@ -39,16 +38,16 @@ numButtons.forEach((button) => {
 
         operateButtons.forEach((button) => {
             button.addEventListener('click', function() {
-                    operations[0] = Number(displayNumbers);
-                    operations[1] = this.innerText;
-                    displayValue = [];
-                    // when equals is clicked, the 2nd value is saved
-                    equals.addEventListener('click', function() {
-                        operations[2] = Number(displayNumbers);
-                        result = operate(operations[1], operations[0], operations[2]);
-                        display.textContent = result;
-
-                    })
+                operations[0] = Number(displayNumbers);
+                operations[1] = this.innerText;
+                displayValue = [];
+                console.log(operations[0]);
+                    // when again operator is clicked, the 2nd value is saved
+                    button.addEventListener('click', function() {
+                        operations[2] = Number(displayNumbers); // not sure why it goes as [0];
+                        console.log(operations[2]);
+                    });
+                displayNumbers = result;
             })
         })
     });
@@ -64,7 +63,12 @@ clearBtn.addEventListener('click', function clear() {
 
 
 
-// when equal is clicked, the result should be the first num in array
-//
+// if you already have a, operator, b and then click operator
+// a should be operated on b, result saved as a
 
+
+// now, when you click another OPERATOR
+// assign the result value to operators[0]
+// save the operator
+// clear displayValue, choose another numbers
 
