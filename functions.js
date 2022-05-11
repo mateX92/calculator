@@ -30,6 +30,8 @@ let displayNumbers;  // array to be transformed into one number
 let operations = ['a','operator','b']; 
 let result = '';
 
+let operation1 = "empty"; // value that shows if 1st num has already been selected
+
 numButtons.forEach((button) => {
     button.addEventListener('click', function() {
         displayValue.push(this.innerText); // adds to array (end), takes value from html
@@ -38,18 +40,66 @@ numButtons.forEach((button) => {
 
         operateButtons.forEach((button) => {
             button.addEventListener('click', function() {
-                operations[0] = Number(displayNumbers);
-                operations[1] = this.innerText;
-                displayValue = [];
-                console.log(operations[0]);
-                    // when again operator is clicked, the 2nd value is saved
-                    button.addEventListener('click', function() {
-                        operations[2] = Number(displayNumbers); // not sure why it goes as [0];
-                        console.log(operations[2]);
+                if(operation1 === "empty") {
+                    console.log(operation1);
+                    operations[0] = Number(displayNumbers);
+                    operations[1] = this.innerText;
+                    displayValue = [];
+                    operation1 = "inserted";
+                    console.log(operation1);
+                    console.log(operations); // console log po pierwszym kliknieciu operatora
+                } else if(operation1 === "inserted") {
+                    operateButtons.forEach((button) => {
+                        button.addEventListener('click', function() {
+                            // problem: za pierwszym kliknieciem mamy "a", "operator" ("inserted"),
+                            // "inserted" sie updejtuje tylko po kliknieciu operatora, wiec zanim
+                            // klikniemy go drugi raz, mamy juz nr 2 "b". Wiec wychodzi ok
+                            // potem mamy trzecie klikniecie, ale displayValue jest wyzerowane
+                            // wiec druga liczba zamienia sie console.log(operations);w 0, pierwsza to result
+                            // i tak leci w kolko (dodawanie do 0 czy odejmowanie dalej daje nam result)
+                            // dzielenie i mnozenie wywala error no bo juz nie bedzie to result
+
+                            // czyli problemem sa te zera
+
+                            displayNumbers = displayValue.join("");
+                            operations[2] = Number(displayNumbers);
+                            // result is produced anyway
+                            result = operate(operations[1],operations[0],operations[2]);
+                            display.textContent = result;
+                            // result is being assigned as the 1st value
+                            operations[0] = result;
+                            operations[1] = this.innerText;
+                            displayValue = [];
+                            console.log(operations); // console log po drugim i kazdym kolejnym kliknieciu operatora
+                        })
+                    })
+                };
+                    // when equals operator is clicked, the 2nd value is saved and result produced
+                    equals.addEventListener('click', function() {
+                        operations[2] = Number(displayNumbers); // 
+                        result = operate(operations[1],operations[0],operations[2]);
+                        display.textContent = result;
                     });
-                displayNumbers = result;
-            })
+               // displayNumbers = result;
+            });
         })
+            // when other operator is clicked instead, the 2nd value is saved
+           // if(operation1 === "inserted") {
+            //    button.addEventListener('click', function() {
+            //        displayNumbers = displayValue.join("");
+            //        operations[2] = Number(displayNumbers);console.log(operations);
+                    // result is produced anyway
+           //         result = operate(operations[1],operations[0],operations[2]);
+           //         display.textContent = result;
+                    // result is being assigned as the 1st value
+           //         operations[0] = result;
+          //          operations[1] = this.innerText;
+          //          displayValue = [];
+                    
+          //          console.log(operations);
+          //      });
+           // };
+        
     });
 });
 
