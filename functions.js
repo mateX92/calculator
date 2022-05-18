@@ -17,92 +17,33 @@ function operate(operator, a, b) {
 }
 
 // Display
-
 const display = document.querySelector("h1"); // display
 const numButtons = document.querySelectorAll(".num"); // 0 - 9
 const operateButtons = document.querySelectorAll(".operator"); // +, -, *, /
 const equals = document.querySelector('#equals') // =
-const clearBtn = document.querySelector('#clear'); // C
+const clearBtn = document.querySelector('#clear'); // AC
 
-let displayValue = []; // here all clicked numbers will be added to array
-let displayNumbers;  // array to be transformed into one number
+let displayValue = []; // add clicked numbers to array
+let displayNumbers;  // joined array
 
 let operations = ['a','operator','b']; 
-let result = '';
 
-let operation1 = "empty"; // value that shows if 1st num has already been selected
+let operand1 = "empty"; // value that shows if 1st num has already been selected
+let result = '';
 
 numButtons.forEach((button) => {
     button.addEventListener('click', function() {
-        displayValue.push(this.innerText); // adds to array (end), takes value from html
-        displayNumbers = displayValue.join("");
-        display.textContent = displayNumbers;
-
-        operateButtons.forEach((button) => {
-            button.addEventListener('click', function() {
-                if(operation1 === "empty") {
-                    console.log(operation1);
-                    operations[0] = Number(displayNumbers);
-                    operations[1] = this.innerText;
-                    displayValue = [];
-                    operation1 = "inserted";
-                    console.log(operation1);
-                    console.log(operations); // console log po pierwszym kliknieciu operatora
-                } else if(operation1 === "inserted") {
-                    operateButtons.forEach((button) => {
-                        button.addEventListener('click', function() {
-                            // problem: za pierwszym kliknieciem mamy "a", "operator" ("inserted"),
-                            // "inserted" sie updejtuje tylko po kliknieciu operatora, wiec zanim
-                            // klikniemy go drugi raz, mamy juz nr 2 "b". Wiec wychodzi ok
-                            // potem mamy trzecie klikniecie, ale displayValue jest wyzerowane
-                            // wiec druga liczba zamienia sie console.log(operations);w 0, pierwsza to result
-                            // i tak leci w kolko (dodawanie do 0 czy odejmowanie dalej daje nam result)
-                            // dzielenie i mnozenie wywala error no bo juz nie bedzie to result
-
-                            // czyli problemem sa te zera
-
-                            displayNumbers = displayValue.join("");
-                            operations[2] = Number(displayNumbers);
-                            // result is produced anyway
-                            result = operate(operations[1],operations[0],operations[2]);
-                            display.textContent = result;
-                            // result is being assigned as the 1st value
-                            operations[0] = result;
-                            operations[1] = this.innerText;
-                            displayValue = [];
-                            console.log(operations); // console log po drugim i kazdym kolejnym kliknieciu operatora
-                        })
-                    })
-                };
-                    // when equals operator is clicked, the 2nd value is saved and result produced
-                    equals.addEventListener('click', function() {
-                        operations[2] = Number(displayNumbers); // 
-                        result = operate(operations[1],operations[0],operations[2]);
-                        display.textContent = result;
-                    });
-               // displayNumbers = result;
-            });
-        })
-            // when other operator is clicked instead, the 2nd value is saved
-           // if(operation1 === "inserted") {
-            //    button.addEventListener('click', function() {
-            //        displayNumbers = displayValue.join("");
-            //        operations[2] = Number(displayNumbers);console.log(operations);
-                    // result is produced anyway
-           //         result = operate(operations[1],operations[0],operations[2]);
-           //         display.textContent = result;
-                    // result is being assigned as the 1st value
-           //         operations[0] = result;
-          //          operations[1] = this.innerText;
-          //          displayValue = [];
-                    
-          //          console.log(operations);
-          //      });
-           // };
-        
+        insertNumbers(button);
     });
 });
 
+operateButtons.forEach((button) => {
+    button.addEventListener('click', function() {
+        insertOperand(button);
+    });
+})
+
+let click = 0;
 clearBtn.addEventListener('click', function clear() {
     result = 0;
     displayValue = [];
@@ -111,14 +52,31 @@ clearBtn.addEventListener('click', function clear() {
     display.textContent = 0;
 });
 
+function insertNumbers(button) {
+    displayValue.push(button.innerText); 
+    displayNumbers = displayValue.join("");
+    display.textContent = displayNumbers;
+};
+
+function insertOperand(button) {
+    if(click < 1) {
+        operations[0] = Number(displayNumbers);
+        operations[1] = button.textContent;
+        displayValue = [];
+        click++;
+    } else if(click >= 1) {
+        operations[2] = Number(displayNumbers);
+        result = operate(operations[1],operations[0],operations[2]);
+        display.textContent = result;
+        displayValue = [];
+
+        // the below we will have for any further clicks
+        operations[0] = result;
+        operations[1] = button.textContent;
+    }
+}
 
 
-// if you already have a, operator, b and then click operator
-// a should be operated on b, result saved as a
 
 
-// now, when you click another OPERATOR
-// assign the result value to operators[0]
-// save the operator
-// clear displayValue, choose another numbers
 
