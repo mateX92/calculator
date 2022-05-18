@@ -13,23 +13,23 @@ function operate(operator, a, b) {
         return subtract(a, b);
     } else if (operator === '*') {
         return multiply(a, b);
-    } else { return divide(a, b); }
+    } else {
+        return divide(a, b); 
+    };
 }
 
 // Display
 const display = document.querySelector("h1"); // display
 const numButtons = document.querySelectorAll(".num"); // 0 - 9
-const operateButtons = document.querySelectorAll(".operator"); // +, -, *, /
+const operateButtons = document.querySelectorAll(".operator"); // +, -, *, /, =
 const equals = document.querySelector('#equals') // =
 const clearBtn = document.querySelector('#clear'); // AC
 
 let displayValue = []; // add clicked numbers to array
 let displayNumbers;  // joined array
-
 let operations = ['a','operator','b']; 
-
-let operand1 = "empty"; // value that shows if 1st num has already been selected
-let result = '';
+let click = 0;
+let result = 0;
 
 numButtons.forEach((button) => {
     button.addEventListener('click', function() {
@@ -43,13 +43,17 @@ operateButtons.forEach((button) => {
     });
 })
 
-let click = 0;
+equals.addEventListener('click', function() {
+    insertEqual();
+});
+
 clearBtn.addEventListener('click', function clear() {
     result = 0;
     displayValue = [];
-    operations = [];
+    operations = ['a','operator','b'];
     displayNumbers = 0;
     display.textContent = 0;
+    click = 0;
 });
 
 function insertNumbers(button) {
@@ -66,8 +70,17 @@ function insertOperand(button) {
         click++;
     } else if(click >= 1) {
         operations[2] = Number(displayNumbers);
-        result = operate(operations[1],operations[0],operations[2]);
-        display.textContent = result;
+        result = Math.round((operate(operations[1],operations[0],operations[2])) * 100) / 100;
+        if (operations[2] === 0) {
+            display.textContent = "0? Really?";
+            result = 0;
+            displayValue = [];
+            operations = ['a','operator','b'];
+            displayNumbers = 0;
+            click = 0;
+        } else {
+            display.textContent = result;
+            };
         displayValue = [];
 
         // the below we will have for any further clicks
@@ -76,7 +89,20 @@ function insertOperand(button) {
     }
 }
 
+function insertEqual() {
+    if(click === 0) {
+        display.textContent = displayNumbers;
+    } else {
+        operations[2] = Number(displayNumbers);
+        result = Math.round((operate(operations[1],operations[0],operations[2])) * 100) / 100;
 
+        if (operations[2] === 0) {
+            display.textContent = "0? Really?";
+        } else {
+        display.textContent = result;
+        };
+    }
+}
 
 
 
