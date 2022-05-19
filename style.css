@@ -1,38 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200;1,300;1,400;1,500&display=swap');
+
 body{
-    background-color: blue;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(94,212,255,1) 0%, rgba(240,188,134,1) 100%);
+    margin: 0;
 }
 
 section{
     max-width: 800px;
-    background-color: yellow;
+    min-height: 80vh;
     margin: auto;
     text-align: center;
     height: 70vh;
 }
 
 #calculator{
-    background-color: gray;
     max-width: 50%;
     margin: auto;
     padding: 20px;
     border-radius: 5%;
+    display: flex;
+    flex-direction: column;
 }
 
 #display{
-    background-color: white;
-    margin-bottom: 0;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    height: 3%;
+    margin-bottom: 20px;
 }
 
 #display h1{
     font-size: 4em;
+    padding: 2%;
+    padding-left: 5%;
+    margin: 0;
+    text-align: left;
+    font-family: 'Raleway', sans-serif;
 }
 
 button{
-    font-size: 3em;
-    min-width: 90px;
-    min-height: 90px;
+    width: 90px;
+    height: 90px;
     border-radius: 100%;
     margin-top: 10px;
+    border: none;
+    cursor: pointer;
+    margin-left: 2px;
+    margin-right: 2px;
+    font-size: 2.5em;
+    font-family: 'Raleway', sans-serif;
+}
+
+#top_row{
+    padding: 0;
+    margin: 0;
 }
 
 .row{
@@ -40,11 +62,67 @@ button{
     justify-content: space-between;
 }
 
+.num{
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+#clear{
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+#back{
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+#reverse{
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+#percent{
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+#coma{
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
 .operator{
     margin-left: 10px;
+    background-color: rgba(163,90,11,0.5);
 }
 
 #equals{
-    margin-left: 5px;
+    margin-left: 10px;
+    background-color: rgba(163,90,11,0.5);
 }
 
+@media only screen and (max-device-width: 650px) and (max-device-height: 1000px) {
+
+    section{
+        max-width: 90%;
+    }
+    
+    #calculator{
+        max-width: 100%;
+        justify-content: center;
+        margin-top: 10%
+    }
+
+    #display{
+        height: 20%;
+        margin-bottom: 40px;
+    }
+    
+    #display h1{
+        font-size: 8em;
+    }
+
+    button{
+        width: 170px;
+        height: 170px;
+        margin-bottom: 40px;
+        background-color: yellow;
+        font-size: 4em;
+    }
+
+}
