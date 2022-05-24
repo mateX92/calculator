@@ -40,12 +40,32 @@ let comaInput = 0; // no decimals
 let numberReversed = 0; // number is positive
 let percentage = 0; // percentage disabled
 
+
 // Numbers
 numButtons.forEach((button) => {
     button.addEventListener('click', function() {
         insertNumbers(button);
     });
 });
+
+//Keyboard
+
+document.addEventListener('keydown', function(event) {
+    if(event.key === "0" || event.key === "1" || event.key === "2" || event.key === "3" || event.key === "4" || event.key === "5"||
+    event.key === "6" || event.key === "7" || event.key === "8" || event.key === "9") {
+        displayValue.push(event.key);
+        displayNumbers = displayValue.join("");
+        display.textContent = displayNumbers;
+    } else if(event.key === "Backspace") {
+        displayValue.pop();
+        displayNumbers = displayValue.join("");
+        display.textContent = displayNumbers;
+        if(displayValue.length === 0) {
+            display.textContent = "0";
+        }
+    }
+})
+
 
 // Decimals
 coma.addEventListener('click', inputDecimals);
@@ -79,6 +99,9 @@ backBtn.addEventListener('click', function() {
     displayValue.pop();
     displayNumbers = displayValue.join("");
     display.textContent = displayNumbers;
+    if(displayValue.length === 0) {
+        display.textContent = "0";
+    }
 })
 
 // CHANGE POSITIVE NUMBER TO A NEGATIVE ONE
@@ -111,7 +134,6 @@ function insertNumbers(button) {
     displayValue.push(button.innerText);
     displayNumbers = displayValue.join("");
     display.textContent = displayNumbers;
-    
 };
 
 function inputDecimals() {
